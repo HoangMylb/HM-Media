@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MessageCircle, Phone, BookOpen, Send, X, MessageSquare, ShieldAlert } from 'lucide-react';
+import { MessageCircle, Phone, X, MessageSquare, ShieldAlert } from 'lucide-react';
 import { CONTACT_INFO } from '../data';
 
-export default function ChatWidget() {
+const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -112,3 +112,5 @@ export default function ChatWidget() {
     </div>
   );
 }
+
+export default memo(ChatWidget);

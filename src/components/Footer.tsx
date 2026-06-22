@@ -1,9 +1,9 @@
-import React from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, MessageSquare, Mail, ExternalLink } from 'lucide-react';
 import { CONTACT_INFO } from '../data';
 
-export default function Footer() {
+const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -101,3 +101,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+export default memo(Footer);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { 
   ShieldCheck, 
   MessageSquare, 
@@ -9,10 +9,8 @@ import {
   Lock, 
   CreditCard, 
   Star,
-  CheckCircle2,
-  AlertCircle
 } from 'lucide-react';
-import { CONTACT_INFO, IMAGES } from '../data';
+import { CONTACT_INFO, IMAGES, getSlug } from '../data';
 
 interface ServiceDetailCard {
   id: string;
@@ -24,22 +22,7 @@ interface ServiceDetailCard {
   yeuCau: string;
 }
 
-const getSlug = (id: string) => {
-  switch (id) {
-    case 'hacked': return 'phuc-hoi-hack';
-    case '956': return 'mo-khoa-ket-tim-956';
-    case 'vi-pham': return 'vi-pham-tieu-chuan';
-    case '2fa': return 'xac-minh-danh-tinh-2fa';
-    case 'xmdt': return 'khoa-bat-xac-minh';
-    case '180-days': return 'vo-hieu-hoa-180-ngay';
-    case 'protect': return 'khoa-do-protect';
-    case 'disabled-perm': return 'vo-hieu-hoa-vinh-vien';
-    case 'messages': return 'xac-minh-nhan-tin';
-    default: return '';
-  }
-};
-
-export default function Services() {
+const Services = React.memo(function Services() {
   const [activeFaqId, setActiveFaqId] = useState<string | null>(null);
 
   const servicesList: ServiceDetailCard[] = [
@@ -128,6 +111,10 @@ export default function Services() {
 
   return (
     <div id="services-page-root" className="min-h-screen bg-[#f9f9fb] text-[#1a1c1d] pt-28 pb-16">
+      <Helmet>
+        <title>Dịch vụ Khôi phục & Xử lý Tài khoản | Hoàng Mỹ</title>
+        <meta name="description" content="Dịch vụ khôi phục tài khoản Facebook chuyên nghiệp - Xử lý hack, két tím 956, vi phạm tiêu chuẩn, 2FA, xác minh danh tính và nhiều vấn đề khác." />
+      </Helmet>
       <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
 
         {/* Header Title Block */}
@@ -163,6 +150,7 @@ export default function Services() {
                     src={svc.image} 
                     alt={svc.title} 
                     referrerPolicy="no-referrer"
+                    loading="lazy"
                     className="max-h-full max-w-full object-contain mix-blend-multiply group-hover:scale-[1.03] transition-transform duration-500" 
                   />
                 </div>
@@ -435,12 +423,12 @@ export default function Services() {
             Hãy gửi tình trạng tài khoản của bạn qua Zalo hoặc Facebook để tôi kiểm tra và tư vấn phương án giải quyết tốt nhất.
           </p>
           
-          <div className="pt-2 flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
+          <div className="pt-2 flex flex-row flex-nowrap justify-center gap-3 max-w-fit mx-auto">
             <a 
               href={CONTACT_INFO.zalo}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-grow px-7 py-4 bg-[#0059b5] text-white font-display text-xs font-bold uppercase tracking-wider rounded-full hover:bg-[#00458f] transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-98 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-5 py-4 bg-[#0059b5] text-white font-display text-xs font-bold uppercase tracking-wider rounded-full hover:bg-[#00458f] transition-all shadow-md hover:shadow-lg active:scale-98 cursor-pointer text-center whitespace-nowrap"
             >
               <span>Nhắn tin Zalo ngay</span>
               <MessageSquare className="h-4.5 w-4.5" />
@@ -449,7 +437,7 @@ export default function Services() {
               href={CONTACT_INFO.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-grow px-7 py-4 bg-[#eeeef0] text-[#1a1c1d] font-display text-xs font-bold uppercase tracking-wider rounded-full hover:bg-[#e2e2e4] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-5 py-4 bg-[#eeeef0] text-[#1a1c1d] font-display text-xs font-bold uppercase tracking-wider rounded-full hover:bg-[#e2e2e4] transition-all cursor-pointer text-center whitespace-nowrap"
             >
               <span>Liên hệ Facebook</span>
               <MessageSquare className="h-4.5 w-4.5" />
@@ -460,4 +448,6 @@ export default function Services() {
       </div>
     </div>
   );
-}
+});
+
+export default Services;

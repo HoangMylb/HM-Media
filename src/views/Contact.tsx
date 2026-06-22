@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import React, { useState, useEffect, memo } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ShieldCheck, 
@@ -13,8 +14,8 @@ import {
 } from 'lucide-react';
 import { CONTACT_INFO, IMAGES } from '../data';
 
-export default function Contact() {
-  const location = useLocation();
+const Contact = memo(function Contact() {
+  const loc = useLocation();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -40,7 +41,7 @@ export default function Contact() {
 
   // Map parameters from navigation if user lands from other pages
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(loc.search);
     const action = params.get('action');
     if (action === 'rescue') {
       setFormData(prev => ({
@@ -61,7 +62,7 @@ export default function Contact() {
         desc: 'Tài khoản của tôi bị dính két sắt tím báo lỗi 956.'
       }));
     }
-  }, [location]);
+  }, [loc]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -80,6 +81,10 @@ export default function Contact() {
 
   return (
     <div id="contact-page-root" className="min-h-screen bg-[#f9f9fb] text-[#1a1c1d] pt-28 pb-20">
+      <Helmet>
+        <title>Liên hệ hỗ trợ | Hoàng Mỹ Media</title>
+        <meta name="description" content="Cung cấp thông tin chi tiết về tình trạng tài khoản của bạn. Đội ngũ chuyên gia sẽ phân tích và đưa ra giải pháp bảo mật tối ưu nhất trong vòng 24 giờ." />
+      </Helmet>
       <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
         
         {/* Banner Headers Section */}
@@ -308,6 +313,8 @@ export default function Contact() {
                 <img 
                   src={IMAGES.avatarMain} 
                   alt="Hoàng Mỹ - Specialist" 
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
                 />
@@ -402,4 +409,6 @@ export default function Contact() {
       </div>
     </div>
   );
-}
+});
+
+export default Contact;

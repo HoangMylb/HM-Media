@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { 
   ShieldCheck, 
   MessageSquare, 
   ArrowLeft, 
-  Heart,
   Calendar,
   Clock,
   User,
@@ -19,7 +19,9 @@ import {
 import { NEWS_ARTICLES, CONTACT_INFO, IMAGES } from '../data';
 import { formatDate } from '../types';
 
-export default function NewsDetail() {
+const SITE_URL = 'https://hm-media.vercel.app';
+
+const NewsDetail = React.memo(function NewsDetail() {
   const { slug } = useParams<{ slug: string }>();
   const [activeFaq, setActiveFaq] = React.useState<number | null>(null);
   
@@ -71,6 +73,18 @@ export default function NewsDetail() {
       className="min-h-screen bg-[#f9f9fb] text-[#1a1c1d] pt-24 pb-16"
       id="news-detail-root"
     >
+      <Helmet>
+        <title>{article.title} - Hoàng Mỹ</title>
+        <meta name="description" content={article.excerpt} />
+        <meta property="og:title" content={article.title} />
+        <meta property="og:description" content={article.excerpt} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`${SITE_URL}/news/${article.slug}`} />
+        <meta property="og:image" content={article.imageUrl} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href={`${SITE_URL}/news/${article.slug}`} />
+      </Helmet>
+
       <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
         
         {/* Breadcrumbs / Back Navigation */}
@@ -95,6 +109,8 @@ export default function NewsDetail() {
               <img
                 src={article.imageUrl}
                 alt={article.title}
+                loading="eager"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 onError={handleImageError}
                 className="max-h-full max-w-full object-contain mix-blend-multiply"
@@ -525,6 +541,8 @@ export default function NewsDetail() {
               <img 
                 src={IMAGES.avatarAbout} 
                 alt="Hoàng Mỹ" 
+                loading="lazy"
+                decoding="async"
                 className="w-14 h-14 rounded-2xl object-cover border border-[#eeeef0]"
               />
               <div className="space-y-1">
@@ -542,4 +560,6 @@ export default function NewsDetail() {
       </div>
     </motion.div>
   );
-}
+});
+
+export default NewsDetail;

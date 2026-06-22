@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState, memo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, ChevronDown, MessageSquare } from 'lucide-react';
 import { CONTACT_INFO, IMAGES } from '../data';
@@ -10,7 +11,7 @@ interface FAQItem {
   category: string;
 }
 
-export default function FAQ() {
+const FAQ = memo(function FAQ() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Tất cả');
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -92,6 +93,10 @@ export default function FAQ() {
 
   return (
     <div id="faq-page-root" className="min-h-screen bg-[#f9f9fb] text-[#1a1c1d] pt-28 pb-16">
+      <Helmet>
+        <title>Câu hỏi thường gặp | Hoàng Mỹ Media</title>
+        <meta name="description" content="Giải đáp nhanh chóng các thắc mắc về dịch vụ hỗ trợ Facebook. Minh bạch, rõ ràng và luôn sẵn sàng hỗ trợ bạn." />
+      </Helmet>
       <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
         
         {/* Hero Section */}
@@ -217,6 +222,8 @@ export default function FAQ() {
               <img 
                 src={IMAGES.avatarMain} 
                 alt="Hoàng Mỹ Profile" 
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover"
               />
@@ -228,4 +235,6 @@ export default function FAQ() {
       </div>
     </div>
   );
-}
+});
+
+export default FAQ;

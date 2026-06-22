@@ -1,10 +1,11 @@
-// Safe patch for iframe environments to solve "Cannot set property fetch of #<Window> which has only a getter"
+type FetchHost = object & {fetch?: typeof fetch};
+
 (function() {
   try {
     const target = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : null);
     if (target) {
       let currentFetch = target.fetch;
-      const patch = (obj: any) => {
+      const patch = (obj: FetchHost) => {
         try {
           Object.defineProperty(obj, 'fetch', {
             get() {
@@ -42,12 +43,14 @@
 
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
+import {HelmetProvider} from 'react-helmet-async';
 import App from './App.tsx';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
   </StrictMode>,
 );
-

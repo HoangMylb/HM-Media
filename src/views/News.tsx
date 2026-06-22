@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { 
   ShieldCheck, 
   ArrowRight, 
@@ -13,7 +13,9 @@ import {
 import { NEWS_ARTICLES, CONTACT_INFO, IMAGES } from '../data';
 import { formatDate } from '../types';
 
-export default function News() {
+const SITE_URL = 'https://hm-media.vercel.app';
+
+const News = React.memo(function News() {
   
   // Use all articles from the central data file
   const allArticles = NEWS_ARTICLES;
@@ -38,6 +40,17 @@ export default function News() {
   return (
     <div id="news-page-root" className="min-h-screen bg-[#f9f9fb] text-[#1a1c1d] pt-24 pb-16">
       
+      <Helmet>
+        <title>Tin tức & Kiến thức Facebook - Hoàng Mỹ</title>
+        <meta name="description" content="Tổng hợp các bài viết hướng dẫn chuyên sâu giúp bạn hiểu rõ hơn về tài khoản Facebook, gỡ lỗi 180 ngày, bảo vệ chống hack, bypass bảo mật 2 yếu tố, tối ưu hoá Fanpage/Group hiệu quả." />
+        <meta property="og:title" content="Tin tức & Kiến thức Facebook - Hoàng Mỹ" />
+        <meta property="og:description" content="Tổng hợp các bài viết hướng dẫn chuyên sâu giúp bạn hiểu rõ hơn về tài khoản Facebook, gỡ lỗi 180 ngày, bảo vệ chống hack, bypass bảo mật 2 yếu tố, tối ưu hoá Fanpage/Group hiệu quả." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${SITE_URL}/news`} />
+        <meta property="og:image" content={IMAGES.serviceProtect} />
+        <link rel="canonical" href={`${SITE_URL}/news`} />
+      </Helmet>
+
       {/* 1. Hero Section */}
       <section className="max-w-[1200px] mx-auto px-5 sm:px-6 py-12 md:py-16 text-left">
         <div className="flex flex-col md:flex-row items-center gap-12">
@@ -78,6 +91,8 @@ export default function News() {
               className="w-full h-full object-contain mix-blend-multiply" 
               src={IMAGES.serviceProtect} 
               alt="Social Media Security Concept"
+              loading="eager"
+              decoding="async"
               referrerPolicy="no-referrer"
               onError={handleImageError}
             />
@@ -108,6 +123,8 @@ export default function News() {
                     className="max-h-full max-w-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" 
                     src={art.imageUrl} 
                     alt={art.title}
+                    loading="lazy"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                     onError={handleImageError}
                   />
@@ -161,6 +178,8 @@ export default function News() {
                       className="max-h-full max-w-full object-contain mix-blend-multiply group-hover:scale-103 transition-transform duration-500" 
                       src={art.imageUrl} 
                       alt={art.title}
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                       onError={handleImageError}
                     />
@@ -242,6 +261,8 @@ export default function News() {
               className="w-full h-full object-cover" 
               src={IMAGES.avatarAbout} 
               alt="Hoàng Mỹ - Chuyên gia tư vấn Facebook"
+              loading="lazy"
+              decoding="async"
               referrerPolicy="no-referrer"
             />
             {/* Floating verification badge */}
@@ -282,4 +303,6 @@ export default function News() {
 
     </div>
   );
-}
+});
+
+export default News;

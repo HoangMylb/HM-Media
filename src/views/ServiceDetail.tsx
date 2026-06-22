@@ -1,4 +1,5 @@
-import React from 'react';
+import { memo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { 
@@ -6,7 +7,6 @@ import {
   ShieldCheck, 
   ArrowLeft, 
   MessageSquare, 
-  Phone, 
   CheckCircle2, 
   Check,
   AlertTriangle,
@@ -22,7 +22,9 @@ import {
 } from 'lucide-react';
 import { SERVICES, CONTACT_INFO, IMAGES, getServiceImage } from '../data';
 
-export default function ServiceDetail() {
+const SITE_URL = 'https://hm-media.vercel.app';
+
+function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
 
   const service = SERVICES.find((s) => s.slug === slug);
@@ -247,6 +249,17 @@ export default function ServiceDetail() {
 
   return (
     <div id="service-detail-page-container" className="min-h-screen bg-[#f9f9fb] text-[#1a1c1d] pt-24 pb-16">
+      <Helmet>
+        <title>{service.title} | Hoàng Mỹ Media</title>
+        <meta name="description" content={service.description} />
+        <meta property="og:title" content={service.title} />
+        <meta property="og:description" content={service.description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${SITE_URL}/services/${service.slug}`} />
+        <meta property="og:image" content={getServiceImage(service.imageUrl)} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href={`${SITE_URL}/services/${service.slug}`} />
+      </Helmet>
       <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
         
         {/* Breadcrumb Navigation Block */}
@@ -331,6 +344,7 @@ export default function ServiceDetail() {
                         src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80" 
                         alt="Lưu Phương Nguyễn"
                         referrerPolicy="no-referrer"
+                        loading="lazy"
                       />
                       <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#ba1a1a] rounded-full border-2 border-[#0a0a0c] flex items-center justify-center">
                         <svg className="h-3 w-3 text-white fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
@@ -442,6 +456,7 @@ export default function ServiceDetail() {
                         src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" 
                         alt="Lưu Phương Nguyễn"
                         referrerPolicy="no-referrer"
+                        loading="lazy"
                       />
                       <div className="absolute -bottom-1 -left-1 w-5 h-5 bg-[#ba1a1a] rounded-full border-2 border-white flex items-center justify-center text-white text-[10px] font-bold">
                         ✕
@@ -490,6 +505,7 @@ export default function ServiceDetail() {
                     src={getServiceImage(service.imageUrl)} 
                     alt={service.title}
                     referrerPolicy="no-referrer"
+                    loading="lazy"
                   />
                   <div className="absolute top-4 left-4 bg-[#ba1a1a] text-white px-3.5 py-1.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider">
                     Tình trạng lỗi
@@ -549,10 +565,11 @@ export default function ServiceDetail() {
                       <img 
                         className="w-8.5 h-8.5 rounded-full object-cover border border-slate-700 shadow" 
                         src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80" 
-                        alt="Lưu Phương Nguyễn"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="text-left space-y-0.5">
+                      alt="Lưu Phương Nguyễn"
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                    />
+                    <div className="text-left space-y-0.5">
                         <p className="font-sans text-xs font-bold text-slate-100">Lưu Phương Nguyễn</p>
                         <div className="flex items-center gap-1 bg-slate-800/80 px-2 py-0.5 rounded-full w-fit">
                           <Globe className="h-2.5 w-2.5 text-slate-400" />
@@ -667,6 +684,7 @@ export default function ServiceDetail() {
                         src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" 
                         alt="Lưu Phương Nguyễn"
                         referrerPolicy="no-referrer"
+                        loading="lazy"
                       />
                     </div>
 
@@ -762,6 +780,7 @@ export default function ServiceDetail() {
                           src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150&auto=format&fit=crop" 
                           alt="Customer"
                           referrerPolicy="no-referrer"
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -875,6 +894,7 @@ export default function ServiceDetail() {
                     src={IMAGES.phoneSuccess} 
                     alt="Mở khóa thành công thiết bị"
                     referrerPolicy="no-referrer"
+                    loading="lazy"
                   />
                   
                   {/* Floating validation badge icon exactly like shown in mockups */}
@@ -1069,3 +1089,5 @@ export default function ServiceDetail() {
     </div>
   );
 }
+
+export default memo(ServiceDetail);

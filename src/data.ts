@@ -32,6 +32,27 @@ export const getServiceImage = (path: string): string => {
   return IMAGE_FALLBACKS[path] || path;
 };
 
+export const getZaloLink = (message: string): string => {
+  return `${CONTACT_INFO.zalo}?text=${encodeURIComponent(message)}`;
+};
+
+// Map service IDs to slugs (shared between views)
+export const SERVICE_SLUG_MAP: Record<string, string> = {
+  hacked: 'phuc-hoi-hack',
+  '956': 'mo-khoa-ket-tim-956',
+  'vi-pham': 'vi-pham-tieu-chuan',
+  '2fa': 'xac-minh-danh-tinh-2fa',
+  xmdt: 'khoa-bat-xac-minh',
+  '180-days': 'vo-hieu-hoa-180-ngay',
+  protect: 'khoa-do-protect',
+  'disabled-perm': 'vo-hieu-hoa-vinh-vien',
+  messages: 'xac-minh-nhan-tin',
+};
+
+export const getSlug = (id: string): string => {
+  return SERVICE_SLUG_MAP[id] || '';
+};
+
 export const REVIEWS: Review[] = [
   {
     id: 'rev-1',

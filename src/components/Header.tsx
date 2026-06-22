@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ChevronDown, ChevronRight, MessageSquare } from 'lucide-react';
-import { CONTACT_INFO } from '../data';
+import { CONTACT_INFO, getZaloLink } from '../data';
 
-export default function Header() {
+const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -68,10 +68,6 @@ export default function Header() {
     { name: 'Tăng Comment Youtube', hot: true },
     { name: 'Tăng Like Youtube', hot: true }
   ];
-
-  const getZaloLink = (serviceName: string) => {
-    return `${CONTACT_INFO.zalo}?text=${encodeURIComponent(`Chào anh Hoàng Mỹ, tôi cần tư vấn dịch vụ: ${serviceName}`)}`;
-  };
 
   return (
     <header
@@ -149,7 +145,7 @@ export default function Header() {
                         {otherServicesGroup1.map((item) => (
                           <a
                             key={item.name}
-                            href={getZaloLink(item.name)}
+                            href={getZaloLink(`Chào anh Hoàng Mỹ, tôi cần tư vấn dịch vụ: ${item.name}`)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-start group/item py-1 text-sm text-[#414753] hover:text-[#0059b5] transition-all"
@@ -177,7 +173,7 @@ export default function Header() {
                         {otherServicesGroup2.map((item) => (
                           <a
                             key={item.name}
-                            href={getZaloLink(item.name)}
+                            href={getZaloLink(`Chào anh Hoàng Mỹ, tôi cần tư vấn dịch vụ: ${item.name}`)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-start group/item py-1 text-sm text-[#414753] hover:text-[#0059b5] transition-all"
@@ -210,7 +206,7 @@ export default function Header() {
                         </p>
                       </div>
                       <a
-                        href={getZaloLink('Chạy ADS cam kết uy tín minh bạch rõ ràng')}
+                        href={getZaloLink('Chào anh Hoàng Mỹ, tôi cần tư vấn dịch vụ: Chạy ADS cam kết uy tín minh bạch rõ ràng')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#0059b5] text-white text-[12px] font-bold uppercase tracking-wider hover:bg-[#00458f] transition-all active:scale-98 shadow-sm cursor-pointer mt-4"
@@ -337,7 +333,7 @@ export default function Header() {
                           Chạy ADS Facebook, Google, Tiktok uy tín, minh bạch rõ ràng hóa đơn.
                         </p>
                         <a
-                          href={getZaloLink('Chạy ADS cam kết uy tín minh bạch rõ ràng')}
+                          href={getZaloLink('Chào anh Hoàng Mỹ, tôi cần tư vấn dịch vụ: Chạy ADS cam kết uy tín minh bạch rõ ràng')}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-full py-2 rounded-lg bg-[#0059b5] text-white text-center font-display text-[11px] font-bold uppercase tracking-wider hover:bg-[#00458f] transition-all block"
@@ -355,7 +351,7 @@ export default function Header() {
                           {otherServicesGroup1.map((item) => (
                             <a
                               key={item.name}
-                              href={getZaloLink(item.name)}
+                              href={getZaloLink(`Chào anh Hoàng Mỹ, tôi cần tư vấn dịch vụ: ${item.name}`)}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex items-center py-1.5 text-[13px] text-[#414753] hover:text-[#0059b5] font-medium"
@@ -381,7 +377,7 @@ export default function Header() {
                           {otherServicesGroup2.map((item) => (
                             <a
                               key={item.name}
-                              href={getZaloLink(item.name)}
+                              href={getZaloLink(`Chào anh Hoàng Mỹ, tôi cần tư vấn dịch vụ: ${item.name}`)}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex items-center py-1.5 text-[13px] text-[#414753] hover:text-[#0059b5] font-medium"
@@ -435,3 +431,5 @@ export default function Header() {
     </header>
   );
 }
+
+export default memo(Header);

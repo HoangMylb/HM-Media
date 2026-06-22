@@ -1,36 +1,42 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, memo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Shield, 
   ShieldAlert, 
   Key, 
   Users, 
-  Award, 
-  Clock, 
   ArrowRight, 
-  CheckCircle2, 
-  Phone, 
   MessageSquare, 
   AlertCircle, 
   RefreshCw,
-  Search,
   Check,
   Lock,
   ChevronDown,
   ShieldCheck,
-  Zap,
-  CheckSquare
+  Zap
 } from 'lucide-react';
-import { SERVICES, REVIEWS, CONTACT_INFO, IMAGES, FAQS } from '../data';
+import { Helmet } from 'react-helmet-async';
+import { REVIEWS, CONTACT_INFO, IMAGES, FAQS } from '../data';
 
-export default function Home() {
+interface DiagnosticResult {
+  name?: string;
+  difficulty: string;
+  rate: string;
+  advice: string;
+  image?: string;
+  targetPath: string;
+}
+
+const SITE_URL = 'https://hm-media.vercel.app';
+
+const Home = memo(function Home() {
   const navigate = useNavigate();
   
   // Interactive Diagnostic Tool States
   const [selectedErrorCode, setSelectedErrorCode] = useState('956');
   const [diagnosing, setDiagnosing] = useState(false);
-  const [diagnosticResult, setDiagnosticResult] = useState<any>(null);
+  const [diagnosticResult, setDiagnosticResult] = useState<DiagnosticResult | null>(null);
 
   // FAQ State
   const [activeFaqId, setActiveFaqId] = useState<string | null>(null);
@@ -55,7 +61,7 @@ export default function Home() {
       img: IMAGES.serviceHacked
     },
     {
-      title: 'Khóa két sát (956)',
+      title: 'Khóa két tím (956)',
       desc: 'Tài khoản bị khóa bảo vệ an toàn (dạng két sắt tím) không rõ lý do.',
       img: IMAGES.servicePadlock956
     },
@@ -138,6 +144,19 @@ export default function Home() {
   return (
     <div id="home-root" className="min-h-screen bg-[#f9f9fb] text-[#1a1c1d]">
       
+      <Helmet>
+        <title>Hoàng Mỹ - Dịch vụ hỗ trợ Facebook uy tín | Mở khóa, phục hồi tài khoản</title>
+        <meta name="description" content="Dịch vụ hỗ trợ Facebook cá nhân, rõ ràng và uy tín. Hỗ trợ kiểm tra, tư vấn và xử lý các vấn đề như tài khoản bị treo 180 ngày, khóa két sắt 956, hạn chế tính năng, bảo mật rò rỉ." />
+        <meta name="keywords" content="hỗ trợ facebook, mở khóa facebook, phục hồi tài khoản facebook, khóa két sắt 956, lỗi 180 ngày facebook, hoàng mỹ" />
+        <meta property="og:title" content="Hoàng Mỹ - Dịch vụ hỗ trợ Facebook uy tín" />
+        <meta property="og:description" content="Dịch vụ hỗ trợ Facebook cá nhân, rõ ràng và uy tín. Hỗ trợ kiểm tra, tư vấn và xử lý các vấn đề Facebook." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={SITE_URL} />
+        <meta property="og:image" content={IMAGES.avatarHands} />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={SITE_URL} />
+      </Helmet>
+
       {/* 1. Hero Section */}
       <section id="home-hero" className="max-w-[1200px] mx-auto px-5 md:px-6 pt-24 md:pt-36 pb-16 md:pb-24">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
@@ -187,6 +206,9 @@ export default function Home() {
                 src={IMAGES.avatarHands} 
                 alt="Hoàng Mỹ facebook specialist" 
                 referrerPolicy="no-referrer"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
                 className="w-full h-auto object-cover rounded-[24px] aspect-[4/5] lg:aspect-square"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none rounded-[24px] m-2"></div>
@@ -220,7 +242,7 @@ export default function Home() {
 
       {/* 2. Pain Points Section */}
       <section id="pain-points" className="max-w-[1200px] mx-auto px-5 md:px-6 py-16 md:py-24 border-t border-[#c1c6d6]/20">
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+        <div className="text-center  mx-auto mb-12 sm:mb-16">
           <h2 className="font-display text-3xl sm:text-[32px] font-bold text-[#1a1c1d] tracking-tight">
             Bạn đang gặp vấn đề gì với Facebook?
           </h2>
@@ -240,6 +262,8 @@ export default function Home() {
                   src={item.img} 
                   alt={item.title} 
                   referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-contain group-hover:scale-103 transition-transform duration-500"
                 />
               </div>
@@ -316,6 +340,8 @@ export default function Home() {
                             src={currentDiagnoseError.image} 
                             alt={currentDiagnoseError.label} 
                             referrerPolicy="no-referrer"
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-auto object-cover rounded-xl aspect-video"
                           />
                           <p className="text-[11px] font-sans text-gray-400 mt-2 italic">
@@ -359,6 +385,8 @@ export default function Home() {
                             src={diagnosticResult.image} 
                             alt="Diagnostic info logo" 
                             referrerPolicy="no-referrer"
+                            loading="lazy"
+                            decoding="async"
                             className="w-16 h-16 object-cover rounded-xl shrink-0 border border-[#c1c6d6]/20"
                           />
                         )}
@@ -550,7 +578,7 @@ export default function Home() {
       {/* 5. Process Section */}
       <section id="process" className="bg-[#ffffff] border-t border-b border-[#c1c6d6]/20 py-16 md:py-24">
         <div className="max-w-[1200px] mx-auto px-5 md:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center  mx-auto mb-16">
             <h2 className="font-display text-3xl sm:text-[32px] font-bold text-[#1a1c1d] tracking-tight">
               Quy trình làm việc rõ ràng
             </h2>
@@ -804,15 +832,26 @@ export default function Home() {
               Nhắn tin trực tiếp qua cổng Zalo cá nhân để tôi rà soát độ nát của nick, tư vấn các bước phòng vệ và đề xuất giải pháp xử lý chất lượng nhất.
             </p>
             <div className="pt-4 flex justify-center">
-              <a 
-                href={CONTACT_INFO.zalo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-[#ffffff] text-[#0059b5] rounded-full hover:bg-[#f3f3f5] transition-all duration-300 font-display text-xs font-bold uppercase tracking-wider shadow-lg active:scale-98 text-center"
-              >
-                <span>Nhắn Zalo Tư Vấn: 0339974745</span>
-                <MessageSquare className="h-4.5 w-4.5" />
-              </a>
+              <div className="flex flex-row flex-wrap sm:flex-nowrap items-center justify-center gap-3 sm:gap-4">
+                <a 
+                  href={CONTACT_INFO.zalo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-4 bg-[#ffffff] text-[#0059b5] rounded-full hover:bg-[#f3f3f5] transition-all duration-300 font-display text-xs font-bold uppercase tracking-wider shadow-lg active:scale-98 text-center whitespace-nowrap"
+                >
+                  <span>Nhắn tin Zalo ngay</span>
+                  <MessageSquare className="h-4.5 w-4.5" />
+                </a>
+                <a 
+                  href={CONTACT_INFO.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-4 bg-[#ffffff]/12 text-white border border-white/25 rounded-full hover:bg-[#ffffff]/18 transition-all duration-300 font-display text-xs font-bold uppercase tracking-wider shadow-lg active:scale-98 text-center whitespace-nowrap"
+                >
+                  <span>Liên hệ Facebook</span>
+                  <MessageSquare className="h-4.5 w-4.5" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -820,4 +859,6 @@ export default function Home() {
 
     </div>
   );
-}
+});
+
+export default Home;
