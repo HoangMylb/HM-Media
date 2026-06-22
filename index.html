@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google AI Studio App</title>
+    <script>
+      (function() {
+        try {
+          var target = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : null);
+          if (target) {
+            var currentFetch = target.fetch;
+            var patch = function(obj) {
+              try {
+                Object.defineProperty(obj, 'fetch', {
+                  get: function() { return currentFetch; },
+                  set: function(val) { currentFetch = val; },
+                  configurable: true,
+                  enumerable: true
+                });
+                return true;
+              } catch (e) {
+                return false;
+              }
+            };
+            patch(target);
+            if (typeof Window !== 'undefined' && Window.prototype) {
+              patch(Window.prototype);
+            }
+            var proto = Object.getPrototypeOf(target);
+            if (proto) {
+              patch(proto);
+              var nextProto = Object.getPrototypeOf(proto);
+              if (nextProto) {
+                patch(nextProto);
+              }
+            }
+          }
+        } catch (e) {
+          console.warn('Failed to patch fetch getter/setter:', e);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

@@ -1,0 +1,6 @@
+{
+  "name": "Hoàng Mỹ Facebook Service",
+  "description": "Hệ thống hỗ trợ khôi phục, mở khóa và bảo mật tài khoản Facebook cá nhân, fanpage uy tín số 1 Việt Nam bởi chuyên gia Hoàng Mỹ.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
